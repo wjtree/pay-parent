@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.pay.dao.PayTradeMapper">
+	<resultMap id="BaseResultMap" type="com.app.pay.entity.generate.PayTrade">
+		<id column="OUT_TRADE_NO" jdbcType="VARCHAR" property="outTradeNo" />
+		<result column="TRANSACTION_ID" jdbcType="VARCHAR" property="transactionId" />
+		<result column="OUT_TRANSACTION_ID" jdbcType="VARCHAR" property="outTransactionId" />
+		<result column="BODY" jdbcType="VARCHAR" property="body" />
+		<result column="TOTAL_FEE" jdbcType="DECIMAL" property="totalFee" />
+		<result column="TRADE_TYPE" jdbcType="VARCHAR" property="tradeType" />
+		<result column="TRADE_STATE" jdbcType="VARCHAR" property="tradeState" />
+		<result column="TIME_START" jdbcType="VARCHAR" property="timeStart" />
+		<result column="TIME_EXPIRE" jdbcType="VARCHAR" property="timeExpire" />
+		<result column="TIME_END" jdbcType="VARCHAR" property="timeEnd" />
+		<result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime" />
+		<result column="UPDATE_TIME" jdbcType="VARCHAR" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		OUT_TRADE_NO, TRANSACTION_ID, OUT_TRANSACTION_ID, BODY, TOTAL_FEE, TRADE_TYPE, TRADE_STATE,
+		TIME_START, TIME_EXPIRE, TIME_END,
+		CREATE_TIME, UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from PAY_TRADE
+		where OUT_TRADE_NO = #{outTradeNo,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from PAY_TRADE
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PAY_TRADE
+		where OUT_TRADE_NO = #{outTradeNo,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.app.pay.entity.generate.PayTrade">
+		insert into PAY_TRADE (OUT_TRADE_NO, TRANSACTION_ID, OUT_TRANSACTION_ID,
+		BODY, TOTAL_FEE, TRADE_TYPE,
+		TRADE_STATE, TIME_START, TIME_EXPIRE,
+		TIME_END, CREATE_TIME, UPDATE_TIME
+		)
+		values (#{outTradeNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR},
+		#{outTransactionId,jdbcType=VARCHAR},
+		#{body,jdbcType=VARCHAR}, #{totalFee,jdbcType=DECIMAL}, #{tradeType,jdbcType=VARCHAR},
+		#{tradeState,jdbcType=VARCHAR}, #{timeStart,jdbcType=VARCHAR}, #{timeExpire,jdbcType=VARCHAR},
+		#{timeEnd,jdbcType=VARCHAR},
+		#{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.app.pay.entity.generate.PayTrade">
+		insert into PAY_TRADE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="outTradeNo != null">
+				OUT_TRADE_NO,
+			</if>
+			<if test="transactionId != null">
+				TRANSACTION_ID,
+			</if>
+			<if test="outTransactionId != null">
+				OUT_TRANSACTION_ID,
+			</if>
+			<if test="body != null">
+				BODY,
+			</if>
+			<if test="totalFee != null">
+				TOTAL_FEE,
+			</if>
+			<if test="tradeType != null">
+				TRADE_TYPE,
+			</if>
+			<if test="tradeState != null">
+				TRADE_STATE,
+			</if>
+			<if test="timeStart != null">
+				TIME_START,
+			</if>
+			<if test="timeExpire != null">
+				TIME_EXPIRE,
+			</if>
+			<if test="timeEnd != null">
+				TIME_END,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="outTradeNo != null">
+				#{outTradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="transactionId != null">
+				#{transactionId,jdbcType=VARCHAR},
+			</if>
+			<if test="outTransactionId != null">
+				#{outTransactionId,jdbcType=VARCHAR},
+			</if>
+			<if test="body != null">
+				#{body,jdbcType=VARCHAR},
+			</if>
+			<if test="totalFee != null">
+				#{totalFee,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeType != null">
+				#{tradeType,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeState != null">
+				#{tradeState,jdbcType=VARCHAR},
+			</if>
+			<if test="timeStart != null">
+				#{timeStart,jdbcType=VARCHAR},
+			</if>
+			<if test="timeExpire != null">
+				#{timeExpire,jdbcType=VARCHAR},
+			</if>
+			<if test="timeEnd != null">
+				#{timeEnd,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.app.pay.entity.generate.PayTrade">
+		update PAY_TRADE
+		<set>
+			<if test="transactionId != null">
+				TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR},
+			</if>
+			<if test="outTransactionId != null">
+				OUT_TRANSACTION_ID = #{outTransactionId,jdbcType=VARCHAR},
+			</if>
+			<if test="body != null">
+				BODY = #{body,jdbcType=VARCHAR},
+			</if>
+			<if test="totalFee != null">
+				TOTAL_FEE = #{totalFee,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeType != null">
+				TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeState != null">
+				TRADE_STATE = #{tradeState,jdbcType=VARCHAR},
+			</if>
+			<if test="timeStart != null">
+				TIME_START = #{timeStart,jdbcType=VARCHAR},
+			</if>
+			<if test="timeExpire != null">
+				TIME_EXPIRE = #{timeExpire,jdbcType=VARCHAR},
+			</if>
+			<if test="timeEnd != null">
+				TIME_END = #{timeEnd,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where OUT_TRADE_NO = #{outTradeNo,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.app.pay.entity.generate.PayTrade">
+		update PAY_TRADE
+		set TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR},
+		OUT_TRANSACTION_ID =
+		#{outTransactionId,jdbcType=VARCHAR},
+		BODY = #{body,jdbcType=VARCHAR},
+		TOTAL_FEE = #{totalFee,jdbcType=DECIMAL},
+		TRADE_TYPE =
+		#{tradeType,jdbcType=VARCHAR},
+		TRADE_STATE = #{tradeState,jdbcType=VARCHAR},
+		TIME_START = #{timeStart,jdbcType=VARCHAR},
+		TIME_EXPIRE =
+		#{timeExpire,jdbcType=VARCHAR},
+		TIME_END = #{timeEnd,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+		UPDATE_TIME =
+		#{updateTime,jdbcType=VARCHAR}
+		where OUT_TRADE_NO = #{outTradeNo,jdbcType=VARCHAR}
+	</update>
+	<cache eviction="LRU" flushInterval="600000" readOnly="true" size="2048" />
+</mapper>

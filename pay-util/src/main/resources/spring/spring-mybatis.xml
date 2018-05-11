@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<!-- 导入数据源和事务配置 -->
+	<import resource="spring-jdbc.xml" />
+
+	<!-- 引入第三方Mybatis分页插件 PageHelper -->
+	<bean id="pageHelper" class="com.github.pagehelper.PageInterceptor">
+		<property name="properties">
+			<props>
+				<!-- 数据库类型，插件能自动识别，支持以下类型：oracle,mysql,mariadb,sqlite,hsqldb,postgresql,db2,sqlserver,informix,h2,sqlserver2012,derby -->
+				<prop key="helperDialect">oracle</prop>
+				<!-- 默认值为 false，当该参数设置为 true 时，如果 pageSize=0 或者 RowBounds.limit = 0 就会查询出全部的结果 -->
+				<prop key="pageSizeZero">false</prop>
+				<!-- 分页合理化参数，默认值为false。当该参数设置为 true 时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页 -->
+				<prop key="reasonable">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 获取 MyBatis SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:sqlmap/*Mapper.xml" />
+		<property name="typeAliasesPackage" value="com.app.**.entity.generate" />
+		<!-- 引入 Mybatis 插件 -->
+		<property name="plugins">
+			<array>
+				<ref bean="pageHelper" />
+			</array>
+		</property>
+	</bean>
+
+	<!-- 设置 MyBatis 调用接口扫描路径 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.app.**.dao" />
+	</bean>
+</beans>

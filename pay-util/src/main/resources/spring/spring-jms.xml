@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供 -->
+	<bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="${mq.url}" />
+		<property name="userName" value="${mq.userName}" />
+		<property name="password" value="${mq.password}" />
+		<property name="trustAllPackages" value="true" />
+		<property name="useDedicatedTaskRunner" value="false" />
+		<!-- 异步发送消息 -->
+		<property name="useAsyncSend" value="true" />
+		<!-- 必须connection上仅仅有一个session相关联。如果存在多个session实例则无效 -->
+		<property name="alwaysSessionAsync" value="false" />
+		<!-- 是否支持批量确认消息 -->
+		<property name="optimizeAcknowledge" value="true" />
+		<!-- 生产者发送消息的最大字节数,与使用异步参数同时使用 -->
+		<property name="producerWindowSize" value="${mq.producerWindowSize}" />
+	</bean>
+	<!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
+	<bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="targetConnectionFactory" />
+		<property name="sessionCacheSize" value="${mq.cachesize}" />
+	</bean>
+
+	<!-- Topic 发布/订阅消息模板 -->
+	<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="pubSubDomain" value="true" />
+		<property name="sessionTransacted" value="true" />
+		<!-- 配置读取超时时间，避免生产者和消费者的服务器时间不一致造成读取超时 -->
+		<property name="receiveTimeout" value="${mp.receiveTimeout}" />
+		<property name="defaultDestinationName" value="${mq.default.topic}" />
+	</bean>
+	<!-- Queue 队列消息模板 -->
+	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="pubSubDomain" value="false" />
+		<property name="sessionTransacted" value="true" />
+		<property name="receiveTimeout" value="${mp.receiveTimeout}" />
+		<property name="defaultDestinationName" value="${mq.default.queue}" />
+	</bean>
+
+	<!-- 引入ActiveMQ发送消息工具类 -->
+	<bean class="com.app.util.JmsUtil">
+		<property name="jmsTopicTemplate" ref="jmsTopicTemplate" />
+		<property name="jmsQueueTemplate" ref="jmsQueueTemplate" />
+	</bean>
+</beans>

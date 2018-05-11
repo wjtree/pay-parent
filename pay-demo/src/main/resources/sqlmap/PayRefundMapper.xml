@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.pay.dao.PayRefundMapper">
+	<resultMap id="BaseResultMap" type="com.app.pay.entity.generate.PayRefund">
+		<id column="OUT_REFUND_NO" jdbcType="VARCHAR" property="outRefundNo" />
+		<result column="OUT_TRADE_NO" jdbcType="VARCHAR" property="outTradeNo" />
+		<result column="REFUND_ID" jdbcType="VARCHAR" property="refundId" />
+		<result column="REFUND_FEE" jdbcType="DECIMAL" property="refundFee" />
+		<result column="REFUND_CHANNEL" jdbcType="VARCHAR" property="refundChannel" />
+		<result column="REFUND_STATUS" jdbcType="VARCHAR" property="refundStatus" />
+		<result column="REFUND_TIME" jdbcType="VARCHAR" property="refundTime" />
+		<result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime" />
+		<result column="UPDATE_TIME" jdbcType="VARCHAR" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		OUT_REFUND_NO, OUT_TRADE_NO, REFUND_ID, REFUND_FEE, REFUND_CHANNEL, REFUND_STATUS,
+		REFUND_TIME, CREATE_TIME, UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from PAY_REFUND
+		where OUT_REFUND_NO = #{outRefundNo,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PAY_REFUND
+		where OUT_REFUND_NO = #{outRefundNo,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.app.pay.entity.generate.PayRefund">
+		insert into PAY_REFUND (OUT_REFUND_NO, OUT_TRADE_NO, REFUND_ID,
+		REFUND_FEE, REFUND_CHANNEL, REFUND_STATUS,
+		REFUND_TIME, CREATE_TIME, UPDATE_TIME
+		)
+		values (#{outRefundNo,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, #{refundId,jdbcType=VARCHAR},
+		#{refundFee,jdbcType=DECIMAL}, #{refundChannel,jdbcType=VARCHAR}, #{refundStatus,jdbcType=VARCHAR},
+		#{refundTime,jdbcType=VARCHAR},
+		#{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.app.pay.entity.generate.PayRefund">
+		insert into PAY_REFUND
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="outRefundNo != null">
+				OUT_REFUND_NO,
+			</if>
+			<if test="outTradeNo != null">
+				OUT_TRADE_NO,
+			</if>
+			<if test="refundId != null">
+				REFUND_ID,
+			</if>
+			<if test="refundFee != null">
+				REFUND_FEE,
+			</if>
+			<if test="refundChannel != null">
+				REFUND_CHANNEL,
+			</if>
+			<if test="refundStatus != null">
+				REFUND_STATUS,
+			</if>
+			<if test="refundTime != null">
+				REFUND_TIME,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="outRefundNo != null">
+				#{outRefundNo,jdbcType=VARCHAR},
+			</if>
+			<if test="outTradeNo != null">
+				#{outTradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="refundId != null">
+				#{refundId,jdbcType=VARCHAR},
+			</if>
+			<if test="refundFee != null">
+				#{refundFee,jdbcType=DECIMAL},
+			</if>
+			<if test="refundChannel != null">
+				#{refundChannel,jdbcType=VARCHAR},
+			</if>
+			<if test="refundStatus != null">
+				#{refundStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="refundTime != null">
+				#{refundTime,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.app.pay.entity.generate.PayRefund">
+		update PAY_REFUND
+		<set>
+			<if test="outTradeNo != null">
+				OUT_TRADE_NO = #{outTradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="refundId != null">
+				REFUND_ID = #{refundId,jdbcType=VARCHAR},
+			</if>
+			<if test="refundFee != null">
+				REFUND_FEE = #{refundFee,jdbcType=DECIMAL},
+			</if>
+			<if test="refundChannel != null">
+				REFUND_CHANNEL = #{refundChannel,jdbcType=VARCHAR},
+			</if>
+			<if test="refundStatus != null">
+				REFUND_STATUS = #{refundStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="refundTime != null">
+				REFUND_TIME = #{refundTime,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where OUT_REFUND_NO = #{outRefundNo,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.app.pay.entity.generate.PayRefund">
+		update PAY_REFUND
+		set OUT_TRADE_NO = #{outTradeNo,jdbcType=VARCHAR},
+		REFUND_ID =
+		#{refundId,jdbcType=VARCHAR},
+		REFUND_FEE = #{refundFee,jdbcType=DECIMAL},
+		REFUND_CHANNEL = #{refundChannel,jdbcType=VARCHAR},
+		REFUND_STATUS =
+		#{refundStatus,jdbcType=VARCHAR},
+		REFUND_TIME = #{refundTime,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+		UPDATE_TIME =
+		#{updateTime,jdbcType=VARCHAR}
+		where OUT_REFUND_NO = #{outRefundNo,jdbcType=VARCHAR}
+	</update>
+	<cache eviction="LRU" flushInterval="600000" readOnly="true" size="2048" />
+</mapper>
